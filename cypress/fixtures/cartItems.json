@@ -1,0 +1,22 @@
+{
+  "cartItems": [
+    {
+      "Index": 0,
+      "Item": "Combination Pliers",
+      "Quantity": 2,
+      "Price": "$14.15"
+    },
+    {
+      "Index": 2,
+      "Item": "Bolt Cutters",
+      "Quantity": 1,
+      "Price": "$48.41"
+    },
+    {
+      "Index": 1,
+      "Item": "Pliers",
+      "Quantity": 1,
+      "Price": "$12.01"
+    }
+  ]
+}
