@@ -7,6 +7,7 @@ Feature: Test Product Page Functionality
     Scenario: To check out of stock product adding to cart
         Given User open the website and go to out of stock product page
         When User trying click on increase, decrease, add to cart buttons still disabled 
+        
 
 
 

@@ -16,7 +16,7 @@ Feature: Test Contact Page Functionality
         When User attach a non-empty.txt as "nonemptyTestFile.txt" file and click send
         Then An error message should shown by invalid file
 
-    Scenario: To send full contact details
+    Scenario Outline: To send full contact details
         Given User logged in with valid email as "test12345@gmail.com" and password as "Test1234@@##" then go to contact page
         When User fill all fields as "<subjectIndex>" "<message>" "<fileName>"
         And User click on send button
@@ -27,7 +27,7 @@ Feature: Test Contact Page Functionality
             | customer-service | Lorem ipsum dolor sit amet, consectetuer adipiscing eli | emptyTestFile.txt |
 
     @mobile
-    Scenario: To send full contact details on mobile view
+    Scenario Outline: To send full contact details on mobile view
         Given User logged in with valid email as "test12345@gmail.com" and password as "Test1234@@##" then go to contact page
         When User fill all fields as "<subjectIndex>" "<message>" "<fileName>" on "mobile" view
         And User click on send button
@@ -38,7 +38,7 @@ Feature: Test Contact Page Functionality
             | customer-service | Lorem ipsum dolor sit amet, consectetuer adipiscing eli | emptyTestFile.txt |
 
     @tablet
-    Scenario: To send full contact details on tablet view
+    Scenario Outline: To send full contact details on tablet view
         Given User logged in with valid email as "test12345@gmail.com" and password as "Test1234@@##" then go to contact page
         When User fill all fields as "<subjectIndex>" "<message>" "<fileName>" on "tablet" view
         And User click on send button
@@ -50,7 +50,7 @@ Feature: Test Contact Page Functionality
 
 
     @desktop
-    Scenario: To send full contact details on desktop view
+    Scenario Outline: To send full contact details on desktop view
         Given User logged in with valid email as "test12345@gmail.com" and password as "Test1234@@##" then go to contact page
         When User fill all fields as "<subjectIndex>" "<message>" "<fileName>" on "desktop" view
         And User click on send button

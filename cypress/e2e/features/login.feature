@@ -1,6 +1,6 @@
 Feature: Test The Login Functionality
 
-  Scenario: To login with invalid credentials
+  Scenario Outline: To login with invalid credentials
     Given User open the website and go to login page
     When User fill email as "<email>" and "<password>" and click on login
     Then Error message should appear
@@ -18,7 +18,7 @@ Feature: Test The Login Functionality
 
 
   @mobile
-  Scenario: Test login page functionality in mobile view
+  Scenario Outline: Test login page functionality in mobile view
     Given User open the website and go to login page
     When User fill email as "<email>" and "<password>" and click on login
     Then Error message should appear in "mobile" view
@@ -29,7 +29,7 @@ Feature: Test The Login Functionality
 
 
   @tablet
-  Scenario: Test login page functionality in tablet view
+  Scenario Outline: Test login page functionality in tablet view
     Given User open the website and go to login page
     When User fill email as "<email>" and "<password>" and click on login
     Then Error message should appear in "tablet" view
@@ -39,7 +39,7 @@ Feature: Test The Login Functionality
       | mahmoudqasem54321@gmail.com | Ma12Kh34@@# |
 
   @desktop
-  Scenario: Test login page functionality in desktop view
+  Scenario Outline: Test login page functionality in desktop view
     Given User open the website and go to login page
     When User fill email as "<email>" and "<password>" and click on login
     Then Error message should appear in "desktop" view
