@@ -2,7 +2,7 @@ export default class Homepage {
     URLs = {
         page: '/'
     }
-    element = {
+    elements = {
         searchInput: () => cy.getDataTest('search-query'),
 
         searchSubmitBTN: () => cy.getDataTest('search-submit'),
@@ -21,40 +21,140 @@ export default class Homepage {
 
         brandCheckBoxes: () => cy.getBySelLike('brand-'),
 
+        sortDropdown: () => cy.getDataTest('sort'),
+
+        productPrice: () => cy.getDataTest('product-price'),
+
+
+
     }
 
     actions = {
-        checkSearchedQueryTitle: (query: string) => this.element.searchedQueryTitle().should('contain', query),
+        checkSearchedQueryTitle: (query: string) => this.elements.searchedQueryTitle().should('contain', query),
 
-        clickSearchSubmitBTN: () => this.element.searchSubmitBTN().click(),
+        clickSearchSubmitBTN: () => this.elements.searchSubmitBTN().click(),
 
-        clickSearchResetBTN: () => this.element.searchResetBTN().click(),
+        clickSearchResetBTN: () => this.elements.searchResetBTN().click(),
 
-        enterSearchInput: (query: string) => this.element.searchInput().clear().type(query),
+        enterSearchInput: (query: string) => this.elements.searchInput().clear().type(query),
 
         checkNoResultFound: (query: string) => {
-            this.element.noResultFound().should('exist').should('be.visible').should('contain', 'No results found.');
-            this.element.searchCompletedContainer().children().should('not.have.attr', 'data-test', 'product-').should('not.contain', query);
+            this.elements.noResultFound().should('exist').should('be.visible').should('contain', 'No results found.');
+            this.elements.searchCompletedContainer().children().should('not.have.attr', 'data-test', 'product-').should('not.contain', query);
         },
 
         checkResetSearch: () => {
-            this.element.searchInput().should('be.empty');
+            this.elements.searchInput().should('be.empty');
         },
 
-        checkFilteredProductsAsQuery: (query: string) => this.element.productName().should('contain', query).should('be.visible'),
+        checkFilteredProductsAsQuery: (query: string) => this.elements.productName().should('contain', query).should('be.visible'),
 
-        // getCurrentItemsCount: () => cy.request('https://api.practicesoftwaretesting.com/products?between=price,1,100&page=0',).then((response) => {
-        //     return response.body.total;
-        // }),
+        checkBoxesByCategoryId: (index: number) => this.elements.categoryCheckBoxes().eq(index).check(),
 
-        checkBoxesByCategoryId: (index: number) => this.element.categoryCheckBoxes().eq(index).check(),
+        unCheckBoxesByCategoryId: (index: number) => this.elements.categoryCheckBoxes().eq(index).uncheck(),
 
-        unCheckBoxesByCategoryId: (index: number) => this.element.categoryCheckBoxes().eq(index).uncheck(),
+        checkBoxesByBrandId: (index: number) => this.elements.brandCheckBoxes().eq(index).check(),
 
-        checkBoxesByBrandId: (index: number) => this.element.brandCheckBoxes().eq(index).check(),
+        unCheckBoxesByBrandId: (index: number) => this.elements.brandCheckBoxes().eq(index).uncheck(),
 
-        unCheckBoxesByBrandId: (index: number) => this.element.brandCheckBoxes().eq(index).uncheck(),
+        verifyCheckingAllBrandBoxes: () => {
+            let brandsNumber = 2
+            for (let index = 0; index < brandsNumber; index++) {
+                this.elements.brandCheckBoxes().eq(index).should('be.checked');
+
+            }
+
+        },
+
+        verifyCheckingAllCategoryBoxes: () => {
+            let categoriesNumber = 19;
+            for (let index = 0; index < categoriesNumber; index++) {
+                this.elements.categoryCheckBoxes().eq(index).should('be.checked');
+            }
+        },
+
+        verifyUncheckingAllBrandBoxes: () => {
+            let brandsNumber = 2
+            for (let index = 0; index < brandsNumber; index++) {
+                this.elements.brandCheckBoxes().eq(index).should('not.be.checked');
+            }
+
+        },
+
+        verifyUncheckingAllCategoryBoxes: () => {
+            let categoriesNumber = 19;
+            for (let index = 0; index < categoriesNumber; index++) {
+                this.elements.categoryCheckBoxes().eq(index).should('not.be.checked');
+
+            }
+        },
+
+        selectSortDropdownOption: (index: number, sortOption: string) => {
+            this.elements.sortDropdown().should('exist').should('be.visible');
+            this.elements.sortDropdown().select(index).should('contain', sortOption);
+            this.elements.sortDropdown().select(index);
+        },
+
+        checkSortDropdownOptions: (sortOption: string) => {
+            let previousPrice = null;
+            let previousText = null;
+            let isSorted = true;
+
+            if (sortOption.includes('A - Z')) {
+                this.elements.productName()
+                    .each((index, child) => {
+                        const currentText: string = child.toString();
+
+                        if (previousText !== null && currentText.localeCompare(previousText) < 0) {
+                            isSorted = false;
+                            return false;
+                        }
+
+                        previousText = currentText;
+                    });
+            } else if (sortOption.includes('Z - A')) {
+                this.elements.productName()
+                    .each((index, child) => {
+                        const currentText: string = child.toString();
+
+                        if (previousText !== null && currentText.localeCompare(previousText) > 0) {
+                            isSorted = false;
+                            return false;
+                        }
+
+                        previousText = currentText;
+                    });
+            } else if (sortOption.includes('High - Low')) {
+                this.elements.productPrice()
+                    .each((index, child) => {
+                        const currentPrice: number = parseFloat(child.toString());
+                        if (previousPrice !== null && currentPrice > previousPrice) {
+                            isSorted = false;
+                            return false;
+                        }
+
+                        previousPrice = currentPrice;
+                    });
+            } else if (sortOption.includes('Low - High')) {
+                this.elements.productPrice()
+                    .each((index, child) => {
+                        const currentPrice: number = parseFloat(child.toString());
+
+                        if (previousPrice !== null && currentPrice < previousPrice) {
+                            isSorted = false;
+                            return false;
+                        }
+
+                        previousPrice = currentPrice;
+                    });
+            }
+
+            expect(isSorted).to.be.true;
+
+        },
+
 
     }
 
 }
+

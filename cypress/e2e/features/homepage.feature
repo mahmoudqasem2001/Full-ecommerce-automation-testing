@@ -1,5 +1,17 @@
 Feature: Test Homepage Filtering Functionality
-    Scenario: Filtering data by Search bar using exist input data
+
+    Scenario Outline: Check sort options functionality
+        Given User open website at homepage
+        When User select option with index as "<Index>" and sortOption as "<Option>" from sort option
+        Then Data items should be sorted as "<Option>" option
+        Examples:
+            | Index | Option             |
+            | 0     | Name (A - Z)       |
+            | 1     | Name (Z - A)       |
+            | 2     | Price (High - Low) |
+            | 3     | Price (Low - High) |
+
+    Scenario Outline: Filtering data by Search bar using exist input data
         Given User open website at homepage
         When User Enter input data as "<query>" and click on search button
         Then Data items should be filtered as query "<query>"
@@ -33,7 +45,7 @@ Feature: Test Homepage Filtering Functionality
         Then All sub checkboxes should checked
 
 
-    Scenario: Filtering data using filters checkbox
+    Scenario Outline: Filtering data using filters checkbox
         Given User open website at homepage
         When User check any box with index "<index>"
         Then Data items should filtered as checked query "<query>"
@@ -42,5 +54,6 @@ Feature: Test Homepage Filtering Functionality
             | index | query  |
             | 1     | Hammer |
             | 5     | Pliers |
+
 
 
